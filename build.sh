@@ -75,6 +75,7 @@ sudo rm -r v20181101.zip
 # Move to /usr/bin/
 cd ~/builder/
 sudo chmod 777 ~/builder/coind.sh
+sudo rm -rvf /usr/bin/coind
 sudo cp coind.sh /usr/bin/
 sudo mv /usr/bin/coind.sh /usr/bin/coind
 cd ~
