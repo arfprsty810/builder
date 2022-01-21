@@ -1,5 +1,6 @@
-
+#!
 source ~/builder/berkeley/.my.cnf
+source ~/builder/function.sh
 
 now=$(date +"%m_%d_%Y")
 set -e
@@ -11,14 +12,15 @@ NPROC=$(nproc)
 #echo "coind file already exists.... Skipping"
 #fi
 
-# Just double checking folder permissions
-
+output "checking folder permissions"
+sleep 5
 sudo setfacl -m u:$USER:rwx ~/builder/compil/coind/
-cd ~/builder/compil/coind/
 clear
-echo "This script assumes you already have the dependicies installed on your system!"
-echo ""
 
+cd ~/builder/compil/coind/
+output "This script assumes you already have the dependicies installed on your system!"
+echo ""
+sleep 5
 read -r -e -p "Enter the name of the coin : " coin
 read -r -e -p "Paste the github link for the coin : " git_hub
 read -r -e -p "Do you need to use a specific github branch of the coin (y/n) : " branch_git_hub
@@ -27,13 +29,16 @@ read -r -e -p "Please enter the branch name exactly as in github, i.e. v2.5.1  :
 fi
 
 coindir=$coin$now
+clear
 
-# save last coin information in case coin build fails
+output "save last coin information in case coin build fails"
 echo '
 lastcoin='"${coindir}"'
 ' | sudo -E tee ~/builder/compil/coind/.lastcoin.conf >/dev/null 2>&1
+clear
 
-# Clone the coin
+output "Clone the coin"
+sleep 5
 if [[ ! -e $coindir ]]; then
 git clone $git_hub $coindir
 cd "${coindir}"
@@ -42,45 +47,50 @@ if [[ ("$branch_git_hub" == "y" || "$branch_git_hub" == "Y" || "$branch_git_hub"
   git checkout "$branch_git_hub_ver"
 fi
 else
-echo "~/builder/compil/coind/${coindir} already exists.... please wait to removed $ $coindir"
+output "~/builder/compil/coind/${coindir} already exists.... please wait to removed $ $coindir"
 sudo rm -rvf $coindir
 clear
-echo "$coindir removed"
-echo "please installing with command : coind"
-#echo "If there was an error in the build use the build error options on the installer"
+output "$coindir removed"
+output "please installing with command : coind"
+#output "If there was an error in the build use the build error options on the installer"
 exit 0
 fi
+clear
 
-# Building 
+output "Building . . ."
+sleep 5
 if [[ ("$autogen" == "true") ]]; then
 if [[ ("$berkeley" == "4.8") ]]; then
 ###################################################################
-echo "Building using Berkeley 4.8..."
+output "Building using Berkeley 4.8..."
+sleep 5
 basedir=$(pwd)
 sh autogen.sh
 if [[ ! -e '~/builder/compil/coind/${coindir}/share/genbuild.sh' ]]; then
-  echo "genbuild.sh not found skipping"
+  output "genbuild.sh not found skipping"
 else
 sudo chmod 777 ~/builder/compil/coind/${coindir}/share/genbuild.sh
 fi
 if [[ ! -e '~/builder/compil/coind/${coindir}/src/leveldb/build_detect_platform' ]]; then
-  echo "build_detect_platform not found skipping"
+  output "build_detect_platform not found skipping"
 else
 sudo chmod 777 ~/builder/compil/coind/${coindir}/src/leveldb/build_detect_platform
 fi
 ./configure CPPFLAGS="-I ~/builder/berkeley/db4/include -O2" LDFLAGS="-L ~/builder/berkeley/db4/lib" --without-gui --disable-tests
 else
+clear
 ####################################################################
-echo "Building using Berkeley 5.1..."
+output "Building using Berkeley 5.1..."
+sleep 5
 basedir=$(pwd)
 sh autogen.sh
 if [[ ! -e '~/builder/compil/coind/${coindir}/share/genbuild.sh' ]]; then 
-  echo "genbuild.sh not found skipping"
+  output "genbuild.sh not found skipping"
 else
 sudo chmod 777 ~/builder/compil/coind/${coindir}/share/genbuild.sh
 fi
 if [[ ! -e '~/builder/compil/coind/${coindir}/src/leveldb/build_detect_platform' ]]; then
-  echo "build_detect_platform not found skipping"
+  output "build_detect_platform not found skipping"
 else
 sudo chmod 777 ~/builder/compil/coind/${coindir}/src/leveldb/build_detect_platform
 fi
@@ -88,18 +98,20 @@ fi
 fi
 make -j$(nproc)
 else
+clear
 ####################################################################
-echo "Building using makefile.unix method..."
+output "Building using makefile.unix method..."
+sleep 5
 cd ~/builder/compil/coind/${coindir}/src
 if [[ ! -e '~/builder/compil/coind/${coindir}/src/obj' ]]; then
 mkdir -p ~/builder/compil/coind/${coindir}/src/obj
 else
-echo "Hey the developer did his job and the src/obj dir is there!"
+output "Hey the developer did his job and the src/obj dir is there!"
 fi
 if [[ ! -e '~/builder/compil/coind/${coindir}/src/obj/zerocoin' ]]; then
 mkdir -p ~/builder/compil/coind/${coindir}/src/obj/zerocoin
 else
-echo  "Wow even the /src/obj/zerocoin is there! Good job developer!"
+output "Wow even the /src/obj/zerocoin is there! Good job developer!"
 fi
 cd ~/builder/compil/coind/${coindir}/src/leveldb
 sudo chmod +x build_detect_platform
@@ -124,7 +136,8 @@ read -r -e -p "Please enter the coin-cli name :" coincli
 fi
 clear
 
-# Strip and copy to Daemon
+output "Strip and copy to Daemon"
+sleep 5
 mkdir -p ~/builder/daemon/$coin/
 sudo strip ~/builder/compil/coind/${coindir}/src/${xcoind}
 sudo cp ~/builder/compil/coind/${coindir}/src/${xcoind} ~/builder/daemon/$coin/
@@ -132,27 +145,35 @@ if [[ ("$ifcoincli" == "y" || "$ifcoincli" == "Y") ]]; then
 sudo strip ~/builder/compil/coind/${coindir}/src/${coincli}
 sudo cp ~/builder/compil/coind/${coindir}/src/${coincli} ~/builder/daemon/$coin/
 fi
+clear
 
-# Make the new wallet folder have user paste the coin.conf and finally start the daemon
+output "Make the new wallet folder have user paste the coin.conf and finally start the daemon"
+sleep 5
 if [[ ! -e '/home/$USER/' ]]; then
 cd /home/$USER/
 fi
+clear
 
-#sudo setfacl -m u:$USER:rwx $STORAGE_ROOT/wallets
+sudo setfacl -m u:$USER:rwx $STORAGE_ROOT/wallets
 mkdir -p ~/."${xcoind::-1}"
-echo "I am now going to open nano, please copy and paste the config from yiimp in to this file."
+sleep 5
+ou. "I am now going to open nano, please copy and paste the config from yiimp in to this file."
 read -n 1 -s -r -p "Press any key to continue"
 sudo nano ~/."${xcoind::-1}"/${xcoind::-1}.conf
 clear
 cd ~/builder/daemon/$coin
-echo "Starting ${xcoind::-1}"
+output "Starting ${xcoind::-1}"
 "${xcoind}" -datadir=~/."${xcoind::-1}" -conf="${xcoind::-1}.conf" -daemon -shrinkdebugfile
+sleep 5
+clear
 
-# If we made it this far everything built fine removing last coin.conf and build directory
+output "If we made it this far everything built fine removing last coin.conf and build directory"
+sleep 5
 sudo rm -rvf ~/builder/compil/coind/.lastcoin.conf
 sudo rm -rvf ~/builder/compil/coind/${coindir}
-
 clear
-echo "Installation of ${xcoind::-1} is completed and running."
-echo Type coind at anytime to install a new coin!
+output""
+output""
+output "Installation of ${xcoind::-1} is completed and running."
+output "Type coind at anytime to install a new coin!"
 exit
