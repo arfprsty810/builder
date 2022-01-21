@@ -44,10 +44,16 @@ fi
 else
 echo "~/builder/compil/coind/${coindir} already exists.... please wait to removed $ $coindir"
 sudo rm -rvf $coindir
+clear
 echo "$coindir removed"
 echo "resume to installing"
 #echo "If there was an error in the build use the build error options on the installer"
 #exit 0
+git clone $git_hub $coindir
+cd "${coindir}"
+if [[ ("$branch_git_hub" == "y" || "$branch_git_hub" == "Y" || "$branch_git_hub" == "yes" || "$branch_git_hub" == "Yes" || "$branch_git_hub" == "YES") ]]; then
+  git fetch
+  git checkout "$branch_git_hub_ver"
 fi
 
 # Building 
