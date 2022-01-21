@@ -11,7 +11,6 @@ protobuf-compiler libqrencode-dev libzmq3-dev libgmp-dev
 cd ~
 sudo mkdir -p ~/builder/bls/
 sudo mkdir -p ~/builder/compil/berkeley/
-sudo mkdir -p ~/builder/compil/coind/
 sudo mkdir -p ~/builder/compil/openssl/
 cd ~/builder/compil/berkeley/
 
