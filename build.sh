@@ -7,7 +7,7 @@ automake pkg-config libssl-dev libevent-dev bsdmainutils git libboost-all-dev li
 libqt5gui5 libqt5core5a libqt5webkit5-dev libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev \
 protobuf-compiler libqrencode-dev libzmq3-dev libgmp-dev
 
-# Direct File
+# Create Directory
 cd ~
 sudo mkdir -p ~/builder/bls/
 sudo mkdir -p ~/builder/compil/berkeley/
@@ -19,7 +19,6 @@ echo '
 autogen=true
 berkeley="4.8"
 ' | sudo -E tee ~/builder/berkeley/.my.cnf >/dev/null 2>&1;
-source source.sh;
 
 # Berkeley db 4.8
 sudo mkdir -p ~/builder/berkeley/db4/
@@ -74,10 +73,10 @@ cd ~/builder/bls
 sudo rm -r v20181101.zip
 
 # Move to /usr/bin/
-# !bash
-cd ~/coind/
+cd ~/builder/
 sudo chmod 777 ~/builder/coind.sh
 sudo cp coind.sh /usr/bin/
 sudo mv /usr/bin/coind.sh /usr/bin/coind
 cd ~
+
 clear

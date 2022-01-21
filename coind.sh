@@ -1,5 +1,6 @@
-clear
+
 source ~/builder/berkeley/.my.cnf
+
 now=$(date +"%m_%d_%Y")
 set -e
 NPROC=$(nproc)
@@ -11,10 +12,13 @@ NPROC=$(nproc)
 #fi
 
 # Just double checking folder permissions
-output "This script assumes you already have the dependicies installed on your system!"
-output ""
 sudo setfacl -m u:$USER:rwx ~/builder/compil/coind/
+
 cd ~/builder/compil/coind/
+clear
+echo "This script assumes you already have the dependicies installed on your system!"
+echo ""
+
 read -r -e -p "Enter the name of the coin : " coin
 read -r -e -p "Paste the github link for the coin : " git_hub
 read -r -e -p "Do you need to use a specific github branch of the coin (y/n) : " branch_git_hub
@@ -38,10 +42,12 @@ if [[ ("$branch_git_hub" == "y" || "$branch_git_hub" == "Y" || "$branch_git_hub"
   git checkout "$branch_git_hub_ver"
 fi
 else
-echo "~/builder/compil/coind/${coindir} already exists.... Skipping"
-echo "remove $coindir to reinstall"
-echo "If there was an error in the build use the build error options on the installer"
-exit 0
+echo "~/builder/compil/coind/${coindir} already exists.... please wait to removed $ $coindir"
+sudo rm -rvf $coindir
+echo "$coindir removed"
+echo "resume to installing"
+#echo "If there was an error in the build use the build error options on the installer"
+#exit 0
 fi
 
 # Building 
@@ -117,7 +123,7 @@ read -r -e -p "Please enter the coin-cli name :" coincli
 fi
 clear
 
-# Strip and copy to /usr/bin
+# Strip and copy to Daemon
 mkdir -p ~/builder/daemon/$coin
 sudo strip ~/builder/compil/coind/${coindir}/src/${xcoind}
 sudo cp ~/builder/compil/coind/${coindir}/src/${xcoind} ~/builder/daemon/$coin
