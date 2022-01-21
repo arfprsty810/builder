@@ -12,8 +12,8 @@ NPROC=$(nproc)
 #fi
 
 # Just double checking folder permissions
+
 sudo setfacl -m u:$USER:rwx ~/builder/compil/coind/
-sudo mkdir -p ~/builder/compil/coind
 cd ~/builder/compil/coind/
 clear
 echo "This script assumes you already have the dependicies installed on your system!"
@@ -125,12 +125,12 @@ fi
 clear
 
 # Strip and copy to Daemon
-mkdir -p ~/builder/daemon/$coin
+mkdir -p ~/builder/daemon/$coin/
 sudo strip ~/builder/compil/coind/${coindir}/src/${xcoind}
-sudo cp ~/builder/compil/coind/${coindir}/src/${xcoind} ~/builder/daemon/$coin
+sudo cp ~/builder/compil/coind/${coindir}/src/${xcoind} ~/builder/daemon/$coin/
 if [[ ("$ifcoincli" == "y" || "$ifcoincli" == "Y") ]]; then
 sudo strip ~/builder/compil/coind/${coindir}/src/${coincli}
-sudo cp ~/builder/compil/coind/${coindir}/src/${coincli} ~/builder/daemon/$coin
+sudo cp ~/builder/compil/coind/${coindir}/src/${coincli} ~/builder/daemon/$coin/
 fi
 
 # Make the new wallet folder have user paste the coin.conf and finally start the daemon

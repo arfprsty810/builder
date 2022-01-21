@@ -11,6 +11,7 @@ protobuf-compiler libqrencode-dev libzmq3-dev libgmp-dev
 cd ~
 sudo mkdir -p ~/builder/bls/
 sudo mkdir -p ~/builder/compil/berkeley/
+sudo mkdir -p ~/builder/compil/coind
 sudo mkdir -p ~/builder/compil/openssl/
 cd ~/builder/compil/berkeley/
 
@@ -74,6 +75,7 @@ sudo rm -r v20181101.zip
 # Move to /usr/bin/
 cd ~/builder/
 sudo chmod 777 ~/builder/coind.sh
+sudo chmod 777 ~/builder/start.sh
 sudo rm -rvf /usr/bin/coind
 sudo cp coind.sh /usr/bin/
 sudo mv /usr/bin/coind.sh /usr/bin/coind
