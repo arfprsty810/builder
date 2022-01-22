@@ -23,13 +23,13 @@ sudo mkdir -p ~/builder/compil/openssl/
 cd ~/builder/compil/berkeley/
 clear
 
-output "Create Config . . ."
-sleep 5
-echo '
-autogen=true
-berkeley="4.8"
-' | sudo -E tee ~/builder/berkeley/.my.cnf >/dev/null 2>&1;
-clear
+#output "Create Config . . ."
+#sleep 5
+#echo '
+#autogen=true
+#berkeley="4.8"
+#' | sudo -E tee ~/builder/berkeley/.my.cnf >/dev/null 2>&1;
+#clear
 
 output "Installing Berkeley db 4.8 . . ."
 sleep 5

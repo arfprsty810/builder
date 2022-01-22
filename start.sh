@@ -59,8 +59,8 @@ clear
 
 output "Building . . ."
 sleep 5
-if [[ ("$autogen" == "true") ]]; then
-if [[ ("$berkeley" == "4.8") ]]; then
+#if [[ ("$autogen" == "true") ]]; then
+if [[ ("$berkeley" == "1") ]]; then
 ###################################################################
 output "Building using Berkeley 4.8..."
 sleep 5
@@ -76,10 +76,12 @@ if [[ ! -e '~/builder/compil/coind/${coindir}/src/leveldb/build_detect_platform'
 else
 sudo chmod 777 ~/builder/compil/coind/${coindir}/src/leveldb/build_detect_platform
 fi
-./configure CPPFLAGS="-I ~/builder/berkeley/db4/include -O2" LDFLAGS="-L ~/builder/berkeley/db4/lib" --without-gui --disable-tests
-else
+fi
+./configure CPPFLAGS="-I~/builder/berkeley/db4/include -O2" LDFLAGS="-L~/builder/berkeley/db4/lib" --without-gui --disable-tests
+#else
 clear
 ####################################################################
+if [[ ("$berkeley" == "2") ]]; then
 output "Building using Berkeley 5.1..."
 sleep 5
 basedir=$(pwd)
@@ -94,12 +96,15 @@ if [[ ! -e '~/builder/compil/coind/${coindir}/src/leveldb/build_detect_platform'
 else
 sudo chmod 777 ~/builder/compil/coind/${coindir}/src/leveldb/build_detect_platform
 fi
-./configure CPPFLAGS="-I ~/builder/berkeley/db5/include -O2" LDFLAGS="-L ~/builder/berkeley/db5/lib" --without-gui --disable-tests
+./configure CPPFLAGS="-I~/builder/berkeley/db5/include -O2" LDFLAGS="-L~/builder/berkeley/db5/lib" --without-gui --disable-tests
 fi
 make -j$(nproc)
-else
+#fi
+#make -j$(nproc)
+#else
 clear
 ####################################################################
+if [[ ("$berkeley" == "3") ]]; then
 output "Building using makefile.unix method..."
 sleep 5
 cd ~/builder/compil/coind/${coindir}/src
@@ -113,17 +118,41 @@ mkdir -p ~/builder/compil/coind/${coindir}/src/obj/zerocoin
 else
 output "Wow even the /src/obj/zerocoin is there! Good job developer!"
 fi
-cd ~/builder/compil/coind/${coindir}/src/leveldb
+cd ~/builder/compil/coind/${coindir}/src/leveldb/
 sudo chmod +x build_detect_platform
 sudo make clean
 sudo make libleveldb.a libmemenv.a
 cd ~/builder/compil/coind/${coindir}/src
 #sed -i '/USE_UPNP:=0/i BDB_LIB_PATH = /home/crypto-data/berkeley/db4/lib\nBDB_INCLUDE_PATH = /home/crypto-data/berkeley/db4/include\nOPENSSL_LIB_PATH = /home/crypto-data/openssl/lib\nOPENSSL_INCLUDE_PATH = /home/crypto-data/openssl/include' makefile.unix
 #sed -i '/USE_UPNP:=1/i BDB_LIB_PATH = /home/crypto-data/berkeley/db4/lib\nBDB_INCLUDE_PATH = /home/crypto-data/berkeley/db4/include\nOPENSSL_LIB_PATH = /home/crypto-data/openssl/lib\nOPENSSL_INCLUDE_PATH = /home/crypto-data/openssl/include' makefile.unix
-make -j$NPROC -f makefile.unix USE_UPNP=-
 fi
+make -j$NPROC -f makefile.unix USE_UPNP=-
+#fi
+clear
 ####################################################################
-clear 
+if [[ ("$berkeley" == "4") ]]; then 
+        output "Building Manually . . . "
+        sleep 5
+        cd ~/builder/compil/coind/${coindir}/
+		output " "
+		output "Starting ./autogen.sh"
+		output " "
+		sudo chmod +x ./autogen.sh
+		sudo ./autogen.sh
+		output " "
+		output "Starting ./configure"
+		output " "
+		sudo chmod +x ./configure
+		sudo ./configure CPPFLAGS="-I/usr/local/include"
+		sudo chmod +x share/genbuild.sh
+		output " "
+		output "Starting make"
+		output " "
+		fi
+        sudo make
+		clear
+####################################################################
+
 
 # LS the SRC dir to have user input bitcoind and bitcoin-cli names
 cd ~/builder/compil/coind/${coindir}/src/
