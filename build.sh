@@ -12,8 +12,8 @@ automake pkg-config libssl-dev libevent-dev bsdmainutils git libboost-all-dev li
 libqt5gui5 libqt5core5a libqt5webkit5-dev libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev \
 protobuf-compiler libqrencode-dev libzmq3-dev libgmp-dev
 echo -e "$GREEN Done...$COL_RESET"
-clear
 
+echo ""
 output "Create Directory . . ."
 sleep 5
 cd ~
@@ -32,6 +32,7 @@ echo -e "$GREEN Done...$COL_RESET"
 #' | sudo -E tee ~/builder/berkeley/.my.cnf >/dev/null 2>&1;
 #clear
 
+echo ""
 output "Installing Berkeley db 4.8 . . ."
 sleep 5
 sudo mkdir -p ~/builder/berkeley/db4/
@@ -44,6 +45,7 @@ cd ~/builder/compil/berkeley/
 hide_output sudo rm -r db-5.1.29.tar.gz db-5.1.29
 echo -e "$GREEN Done...$COL_RESET"
 
+echo ""
 output "Installing Berkeley db 5.1 . . ."
 sleep 5
 sudo mkdir -p ~/builder/berkeley/db5/
@@ -56,6 +58,7 @@ cd ~/builder/compil/berkeley/
 hide_output sudo rm -r db-5.1.29.tar.gz db-5.1.29
 echo -e "$GREEN Done...$COL_RESET"
 
+echo ""
 output "Installing Berkeley db 5.3 . . ."
 sleep 5
 sudo mkdir -p ~/builder/berkeley/db5.3/
@@ -68,6 +71,7 @@ cd ~/builder/compil/berkeley/
 hide_output sudo rm -r db-5.3.28.tar.gz db-5.3.28
 echo -e "$GREEN Done...$COL_RESET"
 
+echo ""
 output "Installing OpenSSL 1.0.2g . . ."
 sleep 5
 cd ~/builder/compil/openssl/
@@ -82,6 +86,7 @@ cd ~/builder/compil/openssl/
 hide_output sudo rm -r openssl-1.0.2g.tar.gz openssl-1.0.2g
 echo -e "$GREEN Done...$COL_RESET"
 
+echo ""
 output "Installing Bls-signatures . . ."
 sleep 5
 cd ~/builder/bls/
@@ -94,6 +99,7 @@ cd ~/builder/bls
 hide_output sudo rm -r v20181101.zip
 echo -e "$GREEN Done...$COL_RESET"
 
+echo ""
 output "Move to /usr/bin/ . . ."
 sleep 5
 cd ~/builder/
