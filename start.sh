@@ -12,7 +12,7 @@ NPROC=$(nproc)
 #echo "coind file already exists.... Skipping"
 #fi
 
-output "checking folder permissions"
+output "checking folder permissions . . ."
 sleep 5
 sudo setfacl -m u:$USER:rwx ~/builder/compil/coind/
 clear
@@ -32,12 +32,13 @@ coindir=$coin$now
 clear
 
 output "save last coin information in case coin build fails"
+sleep 2
 echo '
 lastcoin='"${coindir}"'
 ' | sudo -E tee ~/builder/compil/coind/.lastcoin.conf >/dev/null 2>&1
 clear
 
-output "Clone the coin"
+output "Clone the coin . . ."
 sleep 5
 if [[ ! -e $coindir ]]; then
 git clone $git_hub $coindir
@@ -59,12 +60,13 @@ clear
 
 output "Building . . ."
 sleep 5
-#if [[ ("$autogen" == "true") ]]; then
+if [[ ("$autogen" == "true") ]]; then
 if [[ ("$berkeley" == "1") ]]; then
+clear
 ###################################################################
 output "Building using Berkeley 4.8..."
 sleep 5
-basedir=$(pwd)
+cd ~/builder/compil/coind/${coindir}/
 sh autogen.sh
 if [[ ! -e '~/builder/compil/coind/${coindir}/share/genbuild.sh' ]]; then
   output "genbuild.sh not found skipping"
@@ -76,15 +78,14 @@ if [[ ! -e '~/builder/compil/coind/${coindir}/src/leveldb/build_detect_platform'
 else
 sudo chmod 777 ~/builder/compil/coind/${coindir}/src/leveldb/build_detect_platform
 fi
-fi
 ./configure CPPFLAGS="-I~/builder/berkeley/db4/include -O2" LDFLAGS="-L~/builder/berkeley/db4/lib" --without-gui --disable-tests
-#else
+#fi
+else
 clear
 ####################################################################
-if [[ ("$berkeley" == "2") ]]; then
-output "Building using Berkeley 5.1..."
-sleep 5
-basedir=$(pwd)
+#if [[ ("$berkeley" == "2") ]]; then
+output "Building using Berkeley 5.1..."-*/i/h/*
+cd ~/builder/compil/coind/${coindir}/
 sh autogen.sh
 if [[ ! -e '~/builder/compil/coind/${coindir}/share/genbuild.sh' ]]; then 
   output "genbuild.sh not found skipping"
@@ -101,10 +102,10 @@ fi
 make -j$(nproc)
 #fi
 #make -j$(nproc)
-#else
+else
 clear
 ####################################################################
-if [[ ("$berkeley" == "3") ]]; then
+#if [[ ("$berkeley" == "3") ]]; then
 output "Building using makefile.unix method..."
 sleep 5
 cd ~/builder/compil/coind/${coindir}/src
@@ -125,12 +126,12 @@ sudo make libleveldb.a libmemenv.a
 cd ~/builder/compil/coind/${coindir}/src
 #sed -i '/USE_UPNP:=0/i BDB_LIB_PATH = /home/crypto-data/berkeley/db4/lib\nBDB_INCLUDE_PATH = /home/crypto-data/berkeley/db4/include\nOPENSSL_LIB_PATH = /home/crypto-data/openssl/lib\nOPENSSL_INCLUDE_PATH = /home/crypto-data/openssl/include' makefile.unix
 #sed -i '/USE_UPNP:=1/i BDB_LIB_PATH = /home/crypto-data/berkeley/db4/lib\nBDB_INCLUDE_PATH = /home/crypto-data/berkeley/db4/include\nOPENSSL_LIB_PATH = /home/crypto-data/openssl/lib\nOPENSSL_INCLUDE_PATH = /home/crypto-data/openssl/include' makefile.unix
-fi
-make -j$NPROC -f makefile.unix USE_UPNP=-
 #fi
+make -j$NPROC -f makefile.unix USE_UPNP=-
+else
 clear
 ####################################################################
-if [[ ("$berkeley" == "4") ]]; then 
+#if [[ ("$berkeley" == "4") ]]; then 
         output "Building Manually . . . "
         sleep 5
         cd ~/builder/compil/coind/${coindir}/
@@ -200,6 +201,7 @@ output "If we made it this far everything built fine removing last coin.conf and
 sleep 5
 sudo rm -rvf ~/builder/compil/coind/.lastcoin.conf
 sudo rm -rvf ~/builder/compil/coind/${coindir}
+sudo rm -rvf ~/builder/bekeley/.my.cnf
 clear
 output""
 output""
