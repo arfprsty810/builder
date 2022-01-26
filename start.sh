@@ -126,9 +126,9 @@ sudo make libleveldb.a libmemenv.a
 cd ~/builder/compil/coind/${coindir}/src
 #sed -i '/USE_UPNP:=0/i BDB_LIB_PATH = /home/crypto-data/berkeley/db4/lib\nBDB_INCLUDE_PATH = /home/crypto-data/berkeley/db4/include\nOPENSSL_LIB_PATH = /home/crypto-data/openssl/lib\nOPENSSL_INCLUDE_PATH = /home/crypto-data/openssl/include' makefile.unix
 #sed -i '/USE_UPNP:=1/i BDB_LIB_PATH = /home/crypto-data/berkeley/db4/lib\nBDB_INCLUDE_PATH = /home/crypto-data/berkeley/db4/include\nOPENSSL_LIB_PATH = /home/crypto-data/openssl/lib\nOPENSSL_INCLUDE_PATH = /home/crypto-data/openssl/include' makefile.unix
-#fi
+fi
 make -j$NPROC -f makefile.unix USE_UPNP=-
-else
+#else
 clear
 ####################################################################
 #if [[ ("$berkeley" == "4") ]]; then 

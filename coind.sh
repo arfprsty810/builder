@@ -1,3 +1,5 @@
+source ~/builder/function.sh
+
 output "Select Your Installation Option!"
 echo ""
 sleep 5
