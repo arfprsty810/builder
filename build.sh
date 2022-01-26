@@ -23,7 +23,6 @@ sudo mkdir -p ~/builder/compil/coind
 sudo mkdir -p ~/builder/compil/openssl/
 cd ~/builder/compil/berkeley/
 echo -e "$GREEN Done...$COL_RESET"
-clear
 
 #output "Create Config . . ."
 #sleep 5
@@ -43,7 +42,7 @@ hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --pr
 hide_output sudo make install
 cd ~/builder/compil/berkeley/
 hide_output sudo rm -r db-5.1.29.tar.gz db-5.1.29
-clear
+echo -e "$GREEN Done...$COL_RESET"
 
 output "Installing Berkeley db 5.1 . . ."
 sleep 5
@@ -54,8 +53,8 @@ cd db-5.1.29/build_unix/
 hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=~/builder/berkeley/db5/
 hide_output sudo make install
 cd ~/builder/compil/berkeley/
-sudo rm -r db-5.1.29.tar.gz db-5.1.29
-clear
+hide_output sudo rm -r db-5.1.29.tar.gz db-5.1.29
+echo -e "$GREEN Done...$COL_RESET"
 
 output "Installing Berkeley db 5.3 . . ."
 sleep 5
@@ -66,8 +65,8 @@ cd db-5.3.28/build_unix/
 hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=~/builder/berkeley/db5.3/
 hide_output sudo make install
 cd ~/builder/compil/berkeley/
-sudo rm -r db-5.3.28.tar.gz db-5.3.28
-clear
+hide_output sudo rm -r db-5.3.28.tar.gz db-5.3.28
+echo -e "$GREEN Done...$COL_RESET"
 
 output "Installing OpenSSL 1.0.2g . . ."
 sleep 5
@@ -76,12 +75,12 @@ sudo mkdir -p ~/builder/openssl/
 hide_output sudo wget https://www.openssl.org/source/old/1.0.2/openssl-1.0.2g.tar.gz --no-check-certificate
 hide_output sudo tar -xf openssl-1.0.2g.tar.gz
 cd openssl-1.0.2g
-sudo ./config --prefix=$STORAGE_ROOT/openssl --openssldir=~/builder/openssl shared zlib
+hide_output sudo ./config --prefix=$STORAGE_ROOT/openssl --openssldir=~/builder/openssl shared zlib
 hide_output sudo make
 hide_output sudo make install
 cd ~/builder/compilopenssl/
-sudo rm -r openssl-1.0.2g.tar.gz openssl-1.0.2g
-clear
+hide_output sudo rm -r openssl-1.0.2g.tar.gz openssl-1.0.2g
+echo -e "$GREEN Done...$COL_RESET"
 
 output "Installing Bls-signatures . . ."
 sleep 5
@@ -93,7 +92,7 @@ hide_output sudo cmake .
 hide_output sudo make install
 cd ~/builder/bls
 hide_output sudo rm -r v20181101.zip
-clear
+echo -e "$GREEN Done...$COL_RESET"
 
 output "Move to /usr/bin/ . . ."
 sleep 5
@@ -103,5 +102,7 @@ sudo chmod 777 ~/builder/start.sh
 sudo rm -rvf /usr/bin/coind
 sudo cp coind.sh /usr/bin/
 sudo mv /usr/bin/coind.sh /usr/bin/coind
+echo -e "$GREEN Done...$COL_RESET"
+sleep 5
 clear
 exit
