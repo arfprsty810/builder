@@ -47,7 +47,7 @@ echo -e "$GREEN Done...$COL_RESET"
 output "Installing Berkeley db 5.1 . . ."
 sleep 5
 sudo mkdir -p ~/builder/berkeley/db5/
-hide output sudo wget 'http://download.oracle.com/berkeley-db/db-5.1.29.tar.gz'
+hide_output sudo wget 'http://download.oracle.com/berkeley-db/db-5.1.29.tar.gz'
 hide_output sudo tar -xzvf db-5.1.29.tar.gz
 cd db-5.1.29/build_unix/
 hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=~/builder/berkeley/db5/
@@ -78,7 +78,7 @@ cd openssl-1.0.2g
 hide_output sudo ./config --prefix=$STORAGE_ROOT/openssl --openssldir=~/builder/openssl shared zlib
 hide_output sudo make
 hide_output sudo make install
-cd ~/builder/compilopenssl/
+cd ~/builder/compil/openssl/
 hide_output sudo rm -r openssl-1.0.2g.tar.gz openssl-1.0.2g
 echo -e "$GREEN Done...$COL_RESET"
 
